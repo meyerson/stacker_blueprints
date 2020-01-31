@@ -27,7 +27,7 @@ class RestGateway(Blueprint):
             Name="ExampleApi"
         ))
         
-        t.add_output(Output("RestGatewayId", Value=Ref(ExampleApi)))
+        t.add_output(Output("RestGatewayId", Value=Ref('ExampleApi')))
 
     def create_template(self):
         self.create_rest_gateway()
