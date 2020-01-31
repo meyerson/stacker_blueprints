@@ -84,7 +84,7 @@ class RestGateway(Blueprint):
         # Create a resource to map the lambda function to
         resource = t.add_resource(Resource(
             "FoobarResource",
-            RestApiId=Ref(rest_api),
+            RestApiId=Ref('ExampleApi'),
             PathPart="foobar",
             ParentId=GetAtt("ExampleApi", "RootResourceId"),
         ))
