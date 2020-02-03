@@ -28,6 +28,8 @@ class RestGateway(Blueprint):
                         {"type":str, "default":"python3.7"},
                     'handler':
                         {"type":str, "default": "index.handler"},
+                    'pathpart':
+                        {"type":str, "default": "stuff"}
                     # 'paths':
                     #     {"type": list, "description": ""}
                     }
@@ -56,7 +58,7 @@ class RestGateway(Blueprint):
         print("lambda variables: {}".format(variables))
     # Create a Lambda function that will be mapped
         t = self.template
-        code = ["print('ima a lambda!')"]
+        code = ["def handler(event, context):\n    print('im a lambda')"]
 
     # Create a role for the lambda function
         t.add_resource(Role(
@@ -105,11 +107,12 @@ class RestGateway(Blueprint):
         resource = t.add_resource(Resource(
             "FoobarResource",
             RestApiId=Ref('ApiGateway'),
-            PathPart="foobar",
+            PathPart=variables["pathpart"],
             ParentId=GetAtt("ApiGateway", "RootResourceId"),
         ))
 
     # Create a Lambda API method for the Lambda resource
+    # this is what associates a pathpart with a lambda
         method = t.add_resource(Method(
             "LambdaMethod",
             DependsOn=variables['FunctionName'],
