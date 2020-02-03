@@ -34,6 +34,7 @@ class RestGateway(Blueprint):
         self.create_lambda_function()
     
     def create_lambda_function(self):
+        variables = self.get_variables()
     # Create a Lambda function that will be mapped
         t = self.template
         code = ["print('ima a lambda!')"]
@@ -72,7 +73,7 @@ class RestGateway(Blueprint):
 
         # Create the Lambda function
         foobar_function = t.add_resource(Function(
-            "FoobarFunction",
+            variables["function_name"],
             Code=Code(
                 ZipFile=Join("", code)
             ),
